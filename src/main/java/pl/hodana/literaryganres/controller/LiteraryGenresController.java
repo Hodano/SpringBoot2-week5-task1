@@ -12,16 +12,16 @@ import pl.hodana.literaryganres.model.LiteraryGenre;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
 @RequestMapping("/genre")
 @Controller
 public class LiteraryGenresController {
     private RestTemplate restTemplate;
-    private Logger logger = LoggerFactory.getLogger(LiteraryGenresController.class);
+    private Logger logger;
     private URL url;
 
     public LiteraryGenresController() {
         this.restTemplate = new RestTemplate();
+        this.logger = LoggerFactory.getLogger(LiteraryGenresController.class);
     }
 
     private LiteraryGenre[] getInformationAboutGenre() {

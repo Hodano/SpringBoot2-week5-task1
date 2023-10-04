@@ -15,12 +15,21 @@ import java.net.URL;
 @RequestMapping("/genre")
 @Controller
 public class LiteraryGenresController {
-    private RestTemplate restTemplate;
-    private Logger logger;
+    private final RestTemplate restTemplate;
+    private final Logger logger;
 
     public LiteraryGenresController() {
         this.restTemplate = new RestTemplate();
         this.logger = LoggerFactory.getLogger(LiteraryGenresController.class);
+    }
+    @GetMapping
+    public String getGenres(Model model) {
+        LiteraryGenre[] genres = getInformationAboutGenre();
+        if (genres.length==0)
+            model.addAttribute("Empty", "Table is Empty");
+
+        model.addAttribute("genres", genres);
+        return "genreView";
     }
 
     private LiteraryGenre[] getInformationAboutGenre() {
@@ -30,23 +39,15 @@ public class LiteraryGenresController {
 
         } catch (MalformedURLException e) {
             logger.error("incorrect url format", e.getMessage());
-            return null;
+            return new LiteraryGenre[0];
         } catch (Exception e) {
             logger.error("Error download date", e.getMessage());
-            return null;
+            return new LiteraryGenre[0];
 
         }
         return restTemplate.getForObject(url.toString(), LiteraryGenre[].class);
     }
 
-    @GetMapping
-    public String getGenres(Model model) {
-        LiteraryGenre[] genres = getInformationAboutGenre();
-        if (genres == null)
-            model.addAttribute("Empty", "Table is Empty");
 
-        model.addAttribute("genres", genres);
-        return "genreView";
-    }
 
 }

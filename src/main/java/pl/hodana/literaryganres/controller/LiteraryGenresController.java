@@ -17,7 +17,6 @@ import java.net.URL;
 public class LiteraryGenresController {
     private RestTemplate restTemplate;
     private Logger logger;
-    private URL url;
 
     public LiteraryGenresController() {
         this.restTemplate = new RestTemplate();
@@ -25,6 +24,7 @@ public class LiteraryGenresController {
     }
 
     private LiteraryGenre[] getInformationAboutGenre() {
+        URL url;
         try {
             url = new URL("https://wolnelektury.pl/api/genres/");
 
@@ -34,6 +34,7 @@ public class LiteraryGenresController {
         } catch (Exception e) {
             logger.error("Error download date", e.getMessage());
             return null;
+
         }
         return restTemplate.getForObject(url.toString(), LiteraryGenre[].class);
     }
